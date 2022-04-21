@@ -9,7 +9,7 @@ object Mapper {
         return Image(
             id = jsonObject["id"].asString,
             author = jsonObject["author"].asString,
-            url = jsonObject["url_download"].asString
+            url = jsonObject["download_url"].asString
         )
     }
 }

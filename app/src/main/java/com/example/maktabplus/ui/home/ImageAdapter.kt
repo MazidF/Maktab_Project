@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.maktabplus.data.model.Image
@@ -20,14 +19,14 @@ class ImageAdapter @Inject constructor()
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Image) = with(binding) {
-/*            Glide.with(root)
+            Glide.with(root)
                 .load(item.url)
                 .transition(DrawableTransitionOptions.withCrossFade(800))
-                .into(itemImage)*/
-            itemImage.load(item.url) {
+                .into(itemImage)
+/*            itemImage.load(item.url) {
                 crossfade(true)
                 crossfade(800)
-            }
+            }*/
             itemTitle.text = item.author
         }
     }

@@ -1,7 +1,7 @@
 package com.example.maktabplus.data.local
 
-import android.media.Image
 import com.example.maktabplus.data.IDataSource
+import com.example.maktabplus.data.model.Image
 import retrofit2.Response
 
 class LocalDataSource : IDataSource {

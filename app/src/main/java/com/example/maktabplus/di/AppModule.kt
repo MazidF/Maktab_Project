@@ -29,14 +29,14 @@ class AppModule {
     @RemoteDataSourceAnnotation
     fun provideRemoteDataSource(
         api: ImageApi
-    ): RemoteDataSource {
+    ): IDataSource {
         return RemoteDataSource(api)
     }
 
     @Provides
     @Singleton
     @LocalDataSourceAnnotation
-    fun provideLocalDataSource(): LocalDataSource {
+    fun provideLocalDataSource(): IDataSource {
         return LocalDataSource()
     }
 
