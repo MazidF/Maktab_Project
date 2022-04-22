@@ -18,7 +18,7 @@ android {
     buildToolsVersion '30.0.3'
 
     defaultConfig {
-        applicationId "com.daya.wallet"
+        applicationId "com.example.maktabplus"
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 8
@@ -40,7 +40,7 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '1.8'
 
         // this snippet code for using 'flatMapLatest' that is experimental flow api.
         freeCompilerArgs += [
@@ -108,7 +108,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-
+    // HttpLoggingInterceptor
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.13"
 
     //DataStore

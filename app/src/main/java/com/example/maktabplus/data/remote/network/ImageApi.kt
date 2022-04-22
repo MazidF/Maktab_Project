@@ -1,6 +1,6 @@
-package com.example.maktabplus.data.remote
+package com.example.maktabplus.data.remote.network
 
-import com.example.maktabplus.data.model.Image
+import com.example.maktabplus.data.model.image.Image
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

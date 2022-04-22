@@ -1,4 +1,4 @@
-package com.example.maktabplus.data.model
+package com.example.maktabplus.data.model.image
 
 data class Image(
     val author: String,

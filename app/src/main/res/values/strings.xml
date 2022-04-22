@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Maktab Plus</string>
+    <string name="tmdb_poster_baseurl">https://image.tmdb.org/t/p/original</string>
 </resources>

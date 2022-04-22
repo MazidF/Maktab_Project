@@ -50,6 +50,10 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
                 }
             }
         }
+
+        lifecycleScope.launch {
+
+        }
     }
 
     override fun onDestroyView() {

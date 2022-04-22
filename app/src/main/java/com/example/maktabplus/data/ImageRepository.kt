@@ -1,6 +1,6 @@
 package com.example.maktabplus.data
 
-import com.example.maktabplus.data.model.Image
+import com.example.maktabplus.data.model.image.Image
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

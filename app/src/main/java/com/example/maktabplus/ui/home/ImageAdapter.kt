@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.maktabplus.data.model.Image
+import com.example.maktabplus.data.model.image.Image
 import com.example.maktabplus.databinding.ImageItemBinding
 import javax.inject.Inject
 

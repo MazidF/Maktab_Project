@@ -3,8 +3,10 @@ package com.example.maktabplus.di
 import com.example.maktabplus.data.IDataSource
 import com.example.maktabplus.data.ImageRepository
 import com.example.maktabplus.data.local.LocalDataSource
-import com.example.maktabplus.data.remote.ImageApi
+import com.example.maktabplus.data.remote.network.ImageApi
 import com.example.maktabplus.data.remote.RemoteDataSource
+import com.example.maktabplus.di.annotation.LocalDataSourceAnnotation
+import com.example.maktabplus.di.annotation.RemoteDataSourceAnnotation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,14 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class RemoteDataSourceAnnotation
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class LocalDataSourceAnnotation
 
     @Provides
     @Singleton

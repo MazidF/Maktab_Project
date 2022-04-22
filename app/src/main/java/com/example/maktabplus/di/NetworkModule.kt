@@ -1,7 +1,8 @@
 package com.example.maktabplus.di
 
-import com.example.maktabplus.data.model.Image
-import com.example.maktabplus.data.remote.ImageApi
+import com.example.maktabplus.data.model.image.Image
+import com.example.maktabplus.data.remote.network.ImageApi
+import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.utils.Mapper.jsonToImage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -15,7 +16,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -80,5 +80,13 @@ class NetworkModule {
         retrofit: Retrofit
     ): ImageApi {
         return retrofit.create(ImageApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieApi(
+        retrofit: Retrofit
+    ): MovieApi {
+        return retrofit.create(MovieApi::class.java)
     }
 }
