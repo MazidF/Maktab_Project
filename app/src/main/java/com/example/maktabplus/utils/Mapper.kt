@@ -3,6 +3,7 @@ package com.example.maktabplus.utils
 import com.example.maktabplus.data.model.image.Image
 import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.data.model.movie.MovieDetail
+import com.example.maktabplus.data.model.movie.MovieResponse
 import com.google.gson.JsonObject
 
 object Mapper {
@@ -15,12 +16,16 @@ object Mapper {
         )
     }
 
-    fun jsonToMovie(jsonObject: JsonObject): Movie {
-        return Movie(
-            id = jsonObject["id"].asInt,
-            title = jsonObject["title"].asString,
-            poster = jsonObject["poster_path"].asString
-        )
+    fun jsonToMovie(jsonObject: JsonObject): MovieResponse {
+        val list = jsonObject["results"].asJsonArray.map {
+            val json = it.asJsonObject
+            Movie(
+                id = json["id"].asInt,
+                title = json["title"].asString,
+                poster = json["poster_path"].asString
+            )
+        }
+        return MovieResponse(list)
     }
 
     fun jsonToMovieDetail(jsonObject: JsonObject): MovieDetail {
@@ -33,3 +38,4 @@ object Mapper {
         )
     }
 }
+

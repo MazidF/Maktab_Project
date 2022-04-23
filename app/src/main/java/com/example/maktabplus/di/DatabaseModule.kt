@@ -2,9 +2,8 @@ package com.example.maktabplus.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.maktabplus.data.local.db.ImageDatabase
+import com.example.maktabplus.data.local.db.MovieDatabase
 import com.example.maktabplus.data.local.db.MovieDao
-import com.example.maktabplus.data.remote.network.MovieApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,10 +19,10 @@ class DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): ImageDatabase {
+    ): MovieDatabase {
         return Room.databaseBuilder(
             context,
-            ImageDatabase::class.java,
+            MovieDatabase::class.java,
             "image_database"
         ).build()
     }
@@ -31,7 +30,7 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideMovieDao(
-        database: ImageDatabase
+        database: MovieDatabase
     ): MovieDao {
         return database.getMovieDao()
     }

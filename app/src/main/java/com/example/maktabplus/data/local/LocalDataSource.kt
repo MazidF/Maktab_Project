@@ -1,12 +1,25 @@
 package com.example.maktabplus.data.local
 
-import com.example.maktabplus.data.IDataSource
-import com.example.maktabplus.data.model.image.Image
-import retrofit2.Response
+import com.example.maktabplus.data.local.db.MovieDao
+import com.example.maktabplus.data.model.movie.Genre
+import com.example.maktabplus.data.model.movie.Movie
+import com.example.maktabplus.utils.Result
+import com.example.maktabplus.utils.toResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class LocalDataSource : IDataSource {
-    override suspend fun getImageList(): Response<List<Image>> {
-        TODO("Not yet implemented")
+class LocalDataSource @Inject constructor(
+    private val dao: MovieDao,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
+
+    fun getPopularMovieList(): Flow<Result<List<Movie>>> {
+        return dao.getPopularMovieList().toResult()
     }
 
+/*    fun getGenres(): Flow<Result<List<Genre>>> {
+        return dao.getGenres()
+    }*/
 }

@@ -2,8 +2,10 @@ package com.example.maktabplus.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.maktabplus.data.ImageRepository
+import com.example.maktabplus.data.MovieRepository
 import com.example.maktabplus.data.model.image.Image
+import com.example.maktabplus.data.model.movie.Movie
+import com.example.maktabplus.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,22 +14,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelHome @Inject constructor(
-    private val repository: ImageRepository
+    private val repository: MovieRepository
 ) : ViewModel() {
 
     init {
-        getImageList()
+        getPopularMovieList()
     }
 
-    private val _imageListFlow: MutableStateFlow<List<Image>> = MutableStateFlow(listOf())
-    val imageListFlow get() = _imageListFlow.asStateFlow()
+    private val _movieListFlow: MutableStateFlow<Result<List<Movie>>> =
+        MutableStateFlow(Result.success(listOf()))
+    val movieListFlow get() = _movieListFlow.asStateFlow()
 
 
-    fun getImageList() {
+    fun getPopularMovieList() {
         viewModelScope.launch {
-            val flow = repository.getImageList()
-            flow.collect {
-                _imageListFlow.emit(it)
+            repository.getPopular(1).collect {
+                _movieListFlow.emit(it)
             }
         }
     }

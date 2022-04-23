@@ -1,12 +1,16 @@
 package com.example.maktabplus.di
 
-import com.example.maktabplus.data.model.image.Image
+import com.example.maktabplus.data.model.movie.Movie
+import com.example.maktabplus.data.model.movie.MovieDetail
+import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.ImageApi
 import com.example.maktabplus.data.remote.network.MovieApi
-import com.example.maktabplus.utils.Mapper.jsonToImage
+import com.example.maktabplus.utils.Mapper.jsonToMovie
+import com.example.maktabplus.utils.Mapper.jsonToMovieDetail
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
+import com.google.gson.reflect.TypeToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +37,12 @@ class NetworkModule {
     fun provideInterceptor(): Interceptor {
         return Interceptor {
             val request = it.request()
+            val url = request.url().newBuilder()
+                .addQueryParameter("api_key", "f5a5d7af59cba941f2d09648869ea4e3")
+                .addQueryParameter("language", "en-US")
+                .build()
             val new = request.newBuilder()
+                .url(url)
                 .build()
             it.proceed(new)
         }
@@ -55,8 +64,14 @@ class NetworkModule {
     @Singleton
     fun provideGson(): Gson {
         return GsonBuilder()
-            .registerTypeAdapter(Image::class.java, JsonDeserializer { json, _, _ ->
-                jsonToImage(json.asJsonObject)
+/*            .registerTypeAdapter(object : TypeToken<List<Movie>>() {}.type, JsonDeserializer { json, _, _ ->
+                jsonToMovie(json.asJsonObject)
+            })*/
+            .registerTypeAdapter(MovieResponse::class.java, JsonDeserializer { json, _, _ ->
+                jsonToMovie(json.asJsonObject)
+            })
+            .registerTypeAdapter(MovieDetail::class.java, JsonDeserializer { json, _, _ ->
+                jsonToMovieDetail(json.asJsonObject)
             })
             .create()
     }
@@ -68,7 +83,7 @@ class NetworkModule {
         gson: Gson
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://picsum.photos/")
+            .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()

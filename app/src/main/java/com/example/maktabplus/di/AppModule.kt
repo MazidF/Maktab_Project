@@ -1,17 +1,16 @@
 package com.example.maktabplus.di
 
-import com.example.maktabplus.data.IDataSource
-import com.example.maktabplus.data.ImageRepository
+import com.example.maktabplus.data.MovieRepository
 import com.example.maktabplus.data.local.LocalDataSource
-import com.example.maktabplus.data.remote.network.ImageApi
+import com.example.maktabplus.data.local.db.MovieDao
 import com.example.maktabplus.data.remote.RemoteDataSource
+import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.di.annotation.LocalDataSourceAnnotation
 import com.example.maktabplus.di.annotation.RemoteDataSourceAnnotation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -20,26 +19,29 @@ class AppModule {
 
     @Provides
     @Singleton
-    @RemoteDataSourceAnnotation
+    @RemoteDataSourceAnnotation // useless
     fun provideRemoteDataSource(
-        api: ImageApi
-    ): IDataSource {
+        api: MovieApi
+    ): RemoteDataSource {
         return RemoteDataSource(api)
     }
 
     @Provides
     @Singleton
-    @LocalDataSourceAnnotation
-    fun provideLocalDataSource(): IDataSource {
-        return LocalDataSource()
+    @LocalDataSourceAnnotation // useless
+    fun provideLocalDataSource(
+        movieDao: MovieDao
+    ): LocalDataSource {
+        return LocalDataSource(movieDao)
     }
 
     @Provides
     fun provideRepository(
-        @RemoteDataSourceAnnotation remote: IDataSource,
-        @LocalDataSourceAnnotation local: IDataSource
-    ): ImageRepository {
-        return ImageRepository(
+        /* annotations are useless and they were just for practicing */
+        @RemoteDataSourceAnnotation remote: RemoteDataSource,
+        @LocalDataSourceAnnotation local: LocalDataSource
+    ): MovieRepository {
+        return MovieRepository(
             remote, local
         )
     }

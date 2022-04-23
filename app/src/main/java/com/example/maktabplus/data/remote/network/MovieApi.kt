@@ -1,11 +1,8 @@
 package com.example.maktabplus.data.remote.network
 
-import com.example.maktabplus.data.model.movie.Movie
-import com.example.maktabplus.data.model.movie.MovieDetail
+import com.example.maktabplus.data.model.movie.*
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface MovieApi {
 
@@ -17,22 +14,22 @@ interface MovieApi {
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = TOKEN,
-        @Query("language") lan: String = LANGUAGE
-    ): Response<List<Movie>>
+    ): Response<MovieResponse>
 
     @GET("movie/upcoming")
     suspend fun getUpComingMovies(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = TOKEN,
-        @Query("language") lan: String = LANGUAGE
+    ): Response<List<Movie>>
+
+    @GET("discover/movie")
+    suspend fun getMoviesByGenre(
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: Int,
     ): Response<List<Movie>>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieInfo(
         @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String = TOKEN,
-        @Query("language") lan: String = LANGUAGE,
         @Query("append_to_response") append: String = "videos"
     ): Response<MovieDetail>
 
@@ -40,13 +37,29 @@ interface MovieApi {
     suspend fun search(
         @Query("query") query: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = TOKEN,
-        @Query("language") lan: String = LANGUAGE
     ): Response<List<Movie>>
+
+    @GET("/movie/{movie_id}/recommendations")
+    suspend fun getRecommendedBy(
+        @Path("movie_id") id: Int
+    ): Response<List<Movie>>
+
+    @POST("movie/{movie_id}/rating")
+    suspend fun rateMovie(
+        @Path("movie_id") id: Int,
+        @Body rate: Rate
+    )
+
+    @DELETE("movie/{movie_id}/rating")
+    suspend fun deleteRating(
+        @Path("movie_id") id: Int,
+    )
+
+    @GET("genre/movie/list")
+    suspend fun getGenres(): Response<List<Genre>>
 
 /*    @GET("p/w500/{poster_path}")
     suspend fun getPoster(
         @Path("poster_path") posterPath: String
     )*/
-
 }
