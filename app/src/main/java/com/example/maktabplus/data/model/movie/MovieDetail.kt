@@ -9,17 +9,17 @@ import androidx.room.PrimaryKey
     ForeignKey(
         entity = Movie::class,
         parentColumns = ["movie_id"],
-        childColumns = ["movie_detail_owner_id"],
+        childColumns = ["movie_detail_id"],
         onDelete = ForeignKey.CASCADE
     )
 ])
 data class MovieDetail(
-    @ColumnInfo(name = "movie_detail_owner_id") val ownerId: Int,
+    @PrimaryKey
+    @ColumnInfo(name = "movie_detail_id") val movieId: Int,
     @ColumnInfo(name = "movie_detail_overview") val overview: String,
     @ColumnInfo(name = "movie_detail_backdrop_path") val backdrop: String,
     @ColumnInfo(name = "movie_detail_vote_average") val voteAverage: Float,
     @ColumnInfo(name = "movie_detail_vote_count") val voteCount: Int,
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "movie_detail_id") val id: Int = 0,
 ) {
     companion object {
         const val TABLE_NAME = "movie_detail_table"

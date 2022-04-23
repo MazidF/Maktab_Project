@@ -1,16 +1,14 @@
 package com.example.maktabplus.di
 
-import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.data.model.movie.MovieDetail
 import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.ImageApi
 import com.example.maktabplus.data.remote.network.MovieApi
-import com.example.maktabplus.utils.Mapper.jsonToMovie
+import com.example.maktabplus.utils.Mapper.jsonToMovieResponse
 import com.example.maktabplus.utils.Mapper.jsonToMovieDetail
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
-import com.google.gson.reflect.TypeToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,7 +66,7 @@ class NetworkModule {
                 jsonToMovie(json.asJsonObject)
             })*/
             .registerTypeAdapter(MovieResponse::class.java, JsonDeserializer { json, _, _ ->
-                jsonToMovie(json.asJsonObject)
+                jsonToMovieResponse(json.asJsonObject)
             })
             .registerTypeAdapter(MovieDetail::class.java, JsonDeserializer { json, _, _ ->
                 jsonToMovieDetail(json.asJsonObject)

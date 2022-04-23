@@ -8,6 +8,7 @@ import com.example.maktabplus.utils.toResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
@@ -16,7 +17,11 @@ class LocalDataSource @Inject constructor(
 ) {
 
     fun getPopularMovieList(): Flow<Result<List<Movie>>> {
-        return dao.getPopularMovieList().toResult()
+        return dao.getPopularMovieList().toResult(defaultDispatcher)
+    }
+
+    fun getGenreList(): Flow<Result<List<Genre>>> {
+        return dao.getGenreList().toResult(defaultDispatcher)
     }
 
 /*    fun getGenres(): Flow<Result<List<Genre>>> {

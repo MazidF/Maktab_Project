@@ -1,4 +1,4 @@
-package com.example.maktabplus.ui.home
+package com.example.maktabplus.ui
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -13,17 +13,29 @@ import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.databinding.MovieItemBinding
 import javax.inject.Inject
 
-class MovieAdapter @Inject constructor()
+class MovieAdapter(
+    private val onItemClick: (Movie) -> Unit,
+)
     : ListAdapter<Movie, MovieAdapter.MovieHolder>(DIFF_CALLBACK) {
 
     inner class MovieHolder(
         private val binding: MovieItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         private val errorPlaceholder: Drawable? = null
+        private lateinit var movie: Movie
+
+        init {
+            with(binding) {
+                root.setOnClickListener {
+                    onItemClick(movie)
+                }
+            }
+        }
 
         fun bind(item: Movie) = with(binding) {
+            movie = item
             Glide.with(root)
-                .load(root.context.getString(R.string.tmdb_poster_baseurl) + item.poster)
+                .load(item.poster())
                 .error(errorPlaceholder)
                 .transition(DrawableTransitionOptions.withCrossFade(200))
                 .into(itemImage)

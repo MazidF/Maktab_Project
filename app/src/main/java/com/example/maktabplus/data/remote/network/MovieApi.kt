@@ -19,13 +19,13 @@ interface MovieApi {
     @GET("movie/upcoming")
     suspend fun getUpComingMovies(
         @Query("page") page: Int,
-    ): Response<List<Movie>>
+    ): Response<MovieResponse>
 
     @GET("discover/movie")
     suspend fun getMoviesByGenre(
         @Query("page") page: Int,
         @Query("with_genres") genreId: Int,
-    ): Response<List<Movie>>
+    ): Response<MovieResponse>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieInfo(
@@ -37,12 +37,12 @@ interface MovieApi {
     suspend fun search(
         @Query("query") query: String,
         @Query("page") page: Int,
-    ): Response<List<Movie>>
+    ): Response<MovieResponse>
 
     @GET("/movie/{movie_id}/recommendations")
     suspend fun getRecommendedBy(
         @Path("movie_id") id: Int
-    ): Response<List<Movie>>
+    ): Response<MovieResponse>
 
     @POST("movie/{movie_id}/rating")
     suspend fun rateMovie(

@@ -15,15 +15,17 @@ interface MovieDao : IDao<Movie, Int> {
     @Query("select * from movie_table where movie_id = :primaryKey")
     override fun find(primaryKey: Int): Flow<Movie?>
 
-    @Query("select m.movie_id, m.movie_title, m.movie_poster from movie_table as m " +
-            "join movie_detail_table as d on m.movie_id = d.movie_detail_owner_id " +
-            "join genre_table as g on d.movie_detail_id = g.genre_owner_id " +
-            "where g.genre_id = :genreId")
+    @Query("select * from movie_table as m " +
+            "where m.movie_id in (select r.movie_detail_id from movie_detail_genre_cross_ref as r " +
+            "where r.genre_id = :genreId)")
     fun getMovieListByGenre(genreId: Int): Flow<List<Movie>>
 
-    fun getPopularMovieList() = getMovieListByGenre(Genre.POPULAR)
+    fun getPopularMovieList() = getMovieListByGenre(Genre.POPULAR.id)
 
-    fun getComingSoonMovieList() = getMovieListByGenre(Genre.COMING_SOON)
+    fun getComingSoonMovieList() = getMovieListByGenre(Genre.COMING_SOON.id)
+
+    @Query("select * from genre_table")
+    fun getGenreList(): Flow<List<Genre>>
 }
 
 @Dao

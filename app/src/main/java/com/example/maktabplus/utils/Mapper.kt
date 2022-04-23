@@ -16,7 +16,7 @@ object Mapper {
         )
     }
 
-    fun jsonToMovie(jsonObject: JsonObject): MovieResponse {
+    fun jsonToMovieResponse(jsonObject: JsonObject): MovieResponse {
         val list = jsonObject["results"].asJsonArray.map {
             val json = it.asJsonObject
             Movie(
@@ -30,7 +30,7 @@ object Mapper {
 
     fun jsonToMovieDetail(jsonObject: JsonObject): MovieDetail {
         return MovieDetail(
-            ownerId = jsonObject["id"].asInt,
+            movieId = jsonObject["id"].asInt,
             overview = jsonObject["overview"].asString,
             backdrop = jsonObject["backdrop_path"].asString,
             voteAverage = jsonObject["vote_average"].asFloat,

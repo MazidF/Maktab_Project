@@ -1,9 +1,12 @@
 package com.example.maktabplus.utils
 
-sealed class Result<T> {
-    class Success<T>(val data: T?) : Result<T>()
-    class Loading<T>(val data: T? = null) : Result<T>()
-    class Error<T>(val error: String) : Result<T>()
+sealed class Result<T>(
+    val data: T?,
+    val error: String
+) {
+    class Success<T>(data: T?) : Result<T>(data, "")
+    class Loading<T>(data: T? = null) : Result<T>(data, "")
+    class Error<T>(error: String) : Result<T>(null, error)
 
     val isSuccessful: Boolean = this is Success<T>
 

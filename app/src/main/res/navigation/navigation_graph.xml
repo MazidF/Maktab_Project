@@ -2,10 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/fragmentHome">
+    app:startDestination="@id/fragmentHome2">
 
     <fragment
         android:id="@+id/fragmentHome"
+        android:name="com.example.maktabplus.ui.mvoie_list.FragmentMovieList"
+        android:label="FragmentHome" >
+
+        <argument
+            android:name="genre"
+            app:argType="com.example.maktabplus.data.model.movie.Genre" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentHome2"
         android:name="com.example.maktabplus.ui.home.FragmentHome"
-        android:label="FragmentHome" />
+        android:label="FragmentHome" >
+        <action
+            android:id="@+id/action_fragmentHome2_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
 </navigation>
