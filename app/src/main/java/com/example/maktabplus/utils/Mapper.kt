@@ -1,9 +1,7 @@
 package com.example.maktabplus.utils
 
 import com.example.maktabplus.data.model.image.Image
-import com.example.maktabplus.data.model.movie.Movie
-import com.example.maktabplus.data.model.movie.MovieDetail
-import com.example.maktabplus.data.model.movie.MovieResponse
+import com.example.maktabplus.data.model.movie.*
 import com.google.gson.JsonObject
 
 object Mapper {
@@ -26,6 +24,17 @@ object Mapper {
             )
         }
         return MovieResponse(list)
+    }
+
+    fun jsonToGenreResponse(jsonObject: JsonObject): GenreResponse {
+        val list = jsonObject["genres"].asJsonArray.map {
+            val json = it.asJsonObject
+            Genre(
+                id = json["id"].asInt,
+                name = json["name"].asString,
+            )
+        }
+        return GenreResponse(list)
     }
 
     fun jsonToMovieDetail(jsonObject: JsonObject): MovieDetail {

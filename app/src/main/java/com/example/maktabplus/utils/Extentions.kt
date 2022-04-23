@@ -2,9 +2,7 @@ package com.example.maktabplus.utils
 
 import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,4 +49,13 @@ fun Fragment.repeatingLaunch(state: Lifecycle.State, todo: suspend CoroutineScop
             todo()
         }
     }
+}
+
+fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
+    var ob: Observer<T>? = null
+    ob = Observer<T> {
+        removeObserver(ob!!)
+        observer.onChanged(it)
+    }
+    this.observeForever(ob)
 }

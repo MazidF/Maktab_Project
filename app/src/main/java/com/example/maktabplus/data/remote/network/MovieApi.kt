@@ -25,6 +25,7 @@ interface MovieApi {
     suspend fun getMoviesByGenre(
         @Query("page") page: Int,
         @Query("with_genres") genreId: Int,
+        @Query("limit") limit: Int = 30
     ): Response<MovieResponse>
 
     @GET("movie/{movie_id}")
@@ -56,7 +57,7 @@ interface MovieApi {
     )
 
     @GET("genre/movie/list")
-    suspend fun getGenres(): Response<List<Genre>>
+    suspend fun getGenres(): Response<GenreResponse>
 
 /*    @GET("p/w500/{poster_path}")
     suspend fun getPoster(

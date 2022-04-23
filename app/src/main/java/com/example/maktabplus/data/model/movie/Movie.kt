@@ -11,7 +11,7 @@ data class Movie(
     @ColumnInfo(name = "movie_poster") val poster: String,
 ): Serializable {
 
-    fun poster(): String {
+    fun getPosterPath(): String {
         return "https://image.tmdb.org/t/p/original$poster"
     }
 

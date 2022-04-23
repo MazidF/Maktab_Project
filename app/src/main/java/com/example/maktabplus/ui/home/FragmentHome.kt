@@ -1,23 +1,25 @@
 package com.example.maktabplus.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.maktabplus.R
 import com.example.maktabplus.data.model.movie.Genre
 import com.example.maktabplus.data.model.movie.GenreWithMovies
 import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.databinding.FragmentHomeBinding
 import com.example.maktabplus.utils.Result
-import com.example.maktabplus.utils.Result.Companion.map
 import com.example.maktabplus.utils.repeatingLaunch
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.streams.toList
 
-class FragmentHome : Fragment() {
+@AndroidEntryPoint
+class FragmentHome : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
@@ -28,6 +30,7 @@ class FragmentHome : Fragment() {
         onMoreClick = this::onGenreHolderMoreClick
     )
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
@@ -41,6 +44,7 @@ class FragmentHome : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun observer() {
         repeatingLaunch(Lifecycle.State.STARTED) {
             viewModel.genresFlow.collect {
@@ -50,7 +54,23 @@ class FragmentHome : Fragment() {
                     is Result.Success -> {
                         val list = it.data?.map { genre ->
                             GenreWithMovies(genre).apply {
-                                // TODO: get a list of movies with size 10
+                                launch {
+                                    viewModel.getMovieListByGenre(genre.id).collect { response ->
+                                        when(response) {
+                                            is Result.Error -> {
+
+                                            }
+                                            is Result.Loading -> {
+
+                                            }
+                                            is Result.Success -> {
+                                                response.data?.let { movies ->
+                                                    this@apply.replace(movies.stream().limit(10).toList())
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                         holderAdapter.submitList(list)

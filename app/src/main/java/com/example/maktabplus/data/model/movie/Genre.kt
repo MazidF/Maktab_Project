@@ -12,7 +12,7 @@ import java.io.Serializable
         ForeignKey(
             entity = MovieDetail::class,
             parentColumns = ["movie_detail_id"],
-            childColumns = ["genre_owner_id"]
+            childColumns = ["genre_id"]
         )
     ]
 )

@@ -11,13 +11,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(
+class LocalDataSource constructor(
     private val dao: MovieDao,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     fun getPopularMovieList(): Flow<Result<List<Movie>>> {
         return dao.getPopularMovieList().toResult(defaultDispatcher)
+    }
+
+    fun getMovieListByGenre(genreId: Int): Flow<Result<List<Movie>>> {
+        return dao.getMovieListByGenre(genreId).toResult(defaultDispatcher)
     }
 
     fun getGenreList(): Flow<Result<List<Genre>>> {

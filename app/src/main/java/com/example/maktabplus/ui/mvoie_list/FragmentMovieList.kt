@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.example.maktabplus.R
 import com.example.maktabplus.databinding.FragmentMovieListBinding
 import com.example.maktabplus.ui.MovieAdapter
 import com.example.maktabplus.utils.Result
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FragmentMovieList : Fragment() {
+class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
     private var _binding: FragmentMovieListBinding? = null
     private val binding: FragmentMovieListBinding
         get() = _binding!!

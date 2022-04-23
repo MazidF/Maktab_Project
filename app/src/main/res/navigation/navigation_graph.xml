@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/fragmentHome2">
+    app:startDestination="@id/fragmentHome">
 
     <fragment
-        android:id="@+id/fragmentHome"
+        android:id="@+id/fragmentMovieList"
         android:name="com.example.maktabplus.ui.mvoie_list.FragmentMovieList"
-        android:label="FragmentHome" >
+        android:label="FragmentMovieList"
+        tools:layout="@layout/fragment_movie_list">
 
         <argument
             android:name="genre"
             app:argType="com.example.maktabplus.data.model.movie.Genre" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentHome2"
+        android:id="@+id/fragmentHome"
         android:name="com.example.maktabplus.ui.home.FragmentHome"
-        android:label="FragmentHome" >
+        android:label="FragmentHome"
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_fragmentHome2_to_fragmentHome"
-            app:destination="@id/fragmentHome" />
+            android:id="@+id/action_fragmentHome_to_fragmentMovieList"
+            app:destination="@id/fragmentMovieList" />
     </fragment>
 </navigation>

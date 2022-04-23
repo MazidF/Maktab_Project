@@ -7,9 +7,8 @@ import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.utils.Result
 import com.example.maktabplus.utils.Result.Companion.map
 import com.example.maktabplus.utils.toResult
-import javax.inject.Inject
 
-class RemoteDataSource @Inject constructor(
+class RemoteDataSource constructor(
     private val api: MovieApi
 ) {
     private val mapper: (MovieResponse?) -> List<Movie>? = { it?.movies }
@@ -35,6 +34,8 @@ class RemoteDataSource @Inject constructor(
     }
 
     suspend fun getGenres(): Result<List<Genre>> {
-        return api.getGenres().toResult()
+        return api.getGenres().toResult().map {
+            it?.genres
+        }
     }
 }

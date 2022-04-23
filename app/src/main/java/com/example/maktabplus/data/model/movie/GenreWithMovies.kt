@@ -1,18 +1,20 @@
 package com.example.maktabplus.data.model.movie
 
-import java.util.*
+import androidx.lifecycle.MutableLiveData
 
 data class GenreWithMovies(
     val genre: Genre,
-    val movies: MutableList<Movie> = MutableList(10) {
+    var movies: List<Movie> = List(10) {
         Movie.empty
     }
 ) {
-    var hasLoaded = false
+    val hasLoaded by lazy {
+        MutableLiveData<Boolean>()
+    }
 
     fun replace(newList: List<Movie>) {
-        if (hasLoaded) return
-        Collections.copy(movies, newList)
-        hasLoaded = true
+        if (hasLoaded.value == true) return
+        movies = newList
+        hasLoaded.postValue(true)
     }
 }

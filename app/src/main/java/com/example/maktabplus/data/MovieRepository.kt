@@ -1,6 +1,7 @@
 package com.example.maktabplus.data
 
 import com.example.maktabplus.data.local.LocalDataSource
+import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.data.remote.RemoteDataSource
 import com.example.maktabplus.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(
+class MovieRepository(
     private val remote: RemoteDataSource,
     private val local: LocalDataSource,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -33,6 +34,18 @@ class MovieRepository @Inject constructor(
     fun getGenres() = loadAndSave(
         localLoad = LocalDataSource::getGenreList,
         remoteLoad = RemoteDataSource::getGenres,
+        localSave = {
+
+        }
+    )
+
+    fun getMovieListByGenre(page: Int, genreId: Int, limit: Int = 30) = loadAndSave(
+        localLoad = {
+            this.getMovieListByGenre(genreId)
+        },
+        remoteLoad = {
+            this.getMovieListByGenre(page, genreId)
+        },
         localSave = {
 
         }

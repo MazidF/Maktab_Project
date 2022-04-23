@@ -1,9 +1,11 @@
 package com.example.maktabplus.di
 
+import com.example.maktabplus.data.model.movie.GenreResponse
 import com.example.maktabplus.data.model.movie.MovieDetail
 import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.ImageApi
 import com.example.maktabplus.data.remote.network.MovieApi
+import com.example.maktabplus.utils.Mapper.jsonToGenreResponse
 import com.example.maktabplus.utils.Mapper.jsonToMovieResponse
 import com.example.maktabplus.utils.Mapper.jsonToMovieDetail
 import com.google.gson.Gson
@@ -62,9 +64,9 @@ class NetworkModule {
     @Singleton
     fun provideGson(): Gson {
         return GsonBuilder()
-/*            .registerTypeAdapter(object : TypeToken<List<Movie>>() {}.type, JsonDeserializer { json, _, _ ->
-                jsonToMovie(json.asJsonObject)
-            })*/
+            .registerTypeAdapter(GenreResponse::class.java, JsonDeserializer { json, _, _ ->
+                jsonToGenreResponse(json.asJsonObject)
+            })
             .registerTypeAdapter(MovieResponse::class.java, JsonDeserializer { json, _, _ ->
                 jsonToMovieResponse(json.asJsonObject)
             })

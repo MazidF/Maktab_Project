@@ -11,16 +11,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.maktabplus.R
 import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.databinding.MovieItemBinding
-import javax.inject.Inject
 
 class MovieAdapter(
     private val onItemClick: (Movie) -> Unit,
-)
-    : ListAdapter<Movie, MovieAdapter.MovieHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Movie, MovieAdapter.MovieHolder>(DIFF_CALLBACK) {
 
     inner class MovieHolder(
         private val binding: MovieItemBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
         private val errorPlaceholder: Drawable? = null
         private lateinit var movie: Movie
 
@@ -35,8 +33,9 @@ class MovieAdapter(
         fun bind(item: Movie) = with(binding) {
             movie = item
             Glide.with(root)
-                .load(item.poster())
-                .error(errorPlaceholder)
+                .load(item.getPosterPath())
+                .placeholder(R.drawable.movie_place_holder)
+                .error(R.drawable.movie_place_holder)
                 .transition(DrawableTransitionOptions.withCrossFade(200))
                 .into(itemImage)
             itemTitle.text = item.title
