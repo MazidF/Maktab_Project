@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class MovieUseCase @Inject constructor(
+class MovieUseCase(
     private val repository: MovieRepository,
     private val defaultDispatcher: CoroutineContext = Dispatchers.IO
 ) {

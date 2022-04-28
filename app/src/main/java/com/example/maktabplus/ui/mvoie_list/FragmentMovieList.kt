@@ -5,20 +5,20 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.maktabplus.R
 import com.example.maktabplus.databinding.FragmentMovieListBinding
 import com.example.maktabplus.ui.MovieAdapter
 import com.example.maktabplus.utils.Result
-import com.example.maktabplus.utils.logger
+import com.example.maktabplus.utils.repeatingLaunch
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
+    private val navController by lazy {
+        findNavController()
+    }
     private var _binding: FragmentMovieListBinding? = null
     private val binding: FragmentMovieListBinding
         get() = _binding!!
@@ -26,9 +26,13 @@ class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
     private val args: FragmentMovieListArgs by navArgs()
     private val viewModel: ViewModelMovieList by viewModels()
 
-    val movieAdapter = MovieAdapter {
-
-    } // public
+    private val movieAdapter = MovieAdapter {
+        navController.navigate(
+            FragmentMovieListDirections.actionFragmentMovieListToFragmentMovieInfo(
+                it
+            )
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,26 +49,20 @@ class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
     }
 
     private fun observer() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.movieListFlow.collect {
-                    logger(it.toString())
-                    when(it) {
-                        is Result.Error -> {
-                        }
-                        is Result.Loading -> {
+        repeatingLaunch(Lifecycle.State.STARTED) {
+            viewModel.movieListFlow.collect {
+                when (it) {
+                    is Result.Error -> {
 
-                        }
-                        is Result.Success -> {
-                            movieAdapter.submitList(it.data)
-                        }
+                    }
+                    is Result.Loading -> {
+
+                    }
+                    is Result.Success -> {
+                        movieAdapter.submitList(it.data)
                     }
                 }
             }
-        }
-
-        lifecycleScope.launch {
-
         }
     }
 

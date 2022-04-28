@@ -1,7 +1,9 @@
 package com.example.maktabplus.data.remote
 
+import com.example.maktabplus.data.model.MovieDetailWithGenres
 import com.example.maktabplus.data.model.movie.Genre
 import com.example.maktabplus.data.model.movie.Movie
+import com.example.maktabplus.data.model.movie.MovieDetail
 import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.utils.Result
@@ -27,6 +29,10 @@ class RemoteDataSource constructor(
 
     suspend fun getRecommendedByMovie(movieId: Int): Result<List<Movie>> {
         return api.getRecommendedBy(movieId).toResult().map(mapper)
+    }
+
+    suspend fun getMovieDetail(movieId: Int): Result<MovieDetailWithGenres> {
+        return api.getMovieDetail(movieId).toResult()
     }
 
     suspend fun search(query: String, page: Int): Result<List<Movie>> {

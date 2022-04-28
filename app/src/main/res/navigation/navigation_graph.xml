@@ -14,6 +14,9 @@
         <argument
             android:name="genre"
             app:argType="com.example.maktabplus.data.model.movie.Genre" />
+        <action
+            android:id="@+id/action_fragmentMovieList_to_fragmentMovieInfo"
+            app:destination="@id/fragmentMovieInfo" />
     </fragment>
     <fragment
         android:id="@+id/fragmentHome"
@@ -23,5 +26,18 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentMovieList"
             app:destination="@id/fragmentMovieList" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentMovieInfo"
+            app:destination="@id/fragmentMovieInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMovieInfo"
+        android:name="com.example.maktabplus.ui.movie_info.FragmentMovieInfo"
+        android:label="FragmentMovieInfo" >
+        <argument android:name="movie"
+            app:argType="com.example.maktabplus.data.model.movie.Movie" />
+        <action
+            android:id="@+id/action_fragmentMovieInfo_self"
+            app:destination="@id/fragmentMovieInfo" />
     </fragment>
 </navigation>

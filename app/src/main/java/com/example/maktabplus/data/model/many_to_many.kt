@@ -10,7 +10,14 @@ data class MovieDetailWithGenres(
     @Embedded val detail: MovieDetail,
     @Relation(
         parentColumn = "movie_detail_id",
-        entityColumn = "genre_owner_id",
+        entityColumn = "genre_id",
         associateBy  = Junction(MovieDetailGenreCrossRef::class)
     ) val genres: List<Genre>
-)
+) {
+    companion object {
+        val empty = MovieDetailWithGenres(
+            detail = MovieDetail.empty,
+            genres = emptyList()
+        )
+    }
+}

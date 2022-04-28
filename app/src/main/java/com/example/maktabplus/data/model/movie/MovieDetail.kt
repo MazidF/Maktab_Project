@@ -21,7 +21,20 @@ data class MovieDetail(
     @ColumnInfo(name = "movie_detail_vote_average") val voteAverage: Float,
     @ColumnInfo(name = "movie_detail_vote_count") val voteCount: Int,
 ) {
+
+    fun getBackdropPath(): String {
+        return "https://image.tmdb.org/t/p/original$backdrop"
+    }
+
+
     companion object {
         const val TABLE_NAME = "movie_detail_table"
+        val empty = MovieDetail(
+            movieId = -1,
+            overview = "",
+            backdrop = "",
+            voteAverage = 0f,
+            voteCount = 0
+        )
     }
 }

@@ -7,6 +7,7 @@ import com.example.maktabplus.data.remote.RemoteDataSource
 import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.di.annotation.LocalDataSourceAnnotation
 import com.example.maktabplus.di.annotation.RemoteDataSourceAnnotation
+import com.example.maktabplus.domain.MovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,7 @@ class AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideRepository(
         /* annotations are useless and they were just for practicing */
         @RemoteDataSourceAnnotation remote: RemoteDataSource,
@@ -44,6 +46,14 @@ class AppModule {
         return MovieRepository(
             remote, local
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUseCase(
+        repository: MovieRepository
+    ): MovieUseCase {
+        return MovieUseCase(repository)
     }
 
 }

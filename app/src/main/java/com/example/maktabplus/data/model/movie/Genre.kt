@@ -7,14 +7,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(
-    tableName = Genre.TABLE_NAME,
-    foreignKeys = [
-        ForeignKey(
-            entity = MovieDetail::class,
-            parentColumns = ["movie_detail_id"],
-            childColumns = ["genre_id"]
-        )
-    ]
+    tableName = Genre.TABLE_NAME
 )
 data class Genre(
     @PrimaryKey

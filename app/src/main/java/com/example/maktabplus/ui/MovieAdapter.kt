@@ -1,6 +1,5 @@
 package com.example.maktabplus.ui
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +18,6 @@ class MovieAdapter(
     inner class MovieHolder(
         private val binding: MovieItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        private val errorPlaceholder: Drawable? = null
         private lateinit var movie: Movie
 
         init {
@@ -35,8 +33,8 @@ class MovieAdapter(
             Glide.with(root)
                 .load(item.getPosterPath())
                 .placeholder(R.drawable.movie_place_holder)
-                .error(R.drawable.movie_place_holder)
-                .transition(DrawableTransitionOptions.withCrossFade(200))
+//                .error(R.drawable.movie_place_holder)
+//                .transition(DrawableTransitionOptions.withCrossFade(200))
                 .into(itemImage)
             itemTitle.text = item.title
         }

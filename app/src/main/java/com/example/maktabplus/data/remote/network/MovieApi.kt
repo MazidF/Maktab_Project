@@ -1,5 +1,6 @@
 package com.example.maktabplus.data.remote.network
 
+import com.example.maktabplus.data.model.MovieDetailWithGenres
 import com.example.maktabplus.data.model.movie.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -29,10 +30,10 @@ interface MovieApi {
     ): Response<MovieResponse>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieInfo(
+    suspend fun getMovieDetail(
         @Path("movie_id") movieId: Int,
         @Query("append_to_response") append: String = "videos"
-    ): Response<MovieDetail>
+    ): Response<MovieDetailWithGenres>
 
     @GET("search/movie")
     suspend fun search(
@@ -40,7 +41,7 @@ interface MovieApi {
         @Query("page") page: Int,
     ): Response<MovieResponse>
 
-    @GET("/movie/{movie_id}/recommendations")
+    @GET("movie/{movie_id}/recommendations")
     suspend fun getRecommendedBy(
         @Path("movie_id") id: Int
     ): Response<MovieResponse>
