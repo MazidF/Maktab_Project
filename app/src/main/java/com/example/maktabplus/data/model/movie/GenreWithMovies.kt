@@ -13,7 +13,7 @@ data class GenreWithMovies(
     }
 
     fun replace(newList: List<Movie>) {
-        if (hasLoaded.value == true) return
+//        if (hasLoaded.value == true) return
         movies = newList
         hasLoaded.postValue(true)
     }

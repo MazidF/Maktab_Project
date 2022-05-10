@@ -8,6 +8,7 @@ import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.MovieApi
 import com.example.maktabplus.utils.Result
 import com.example.maktabplus.utils.Result.Companion.map
+import com.example.maktabplus.utils.Result.Companion.success
 import com.example.maktabplus.utils.toResult
 
 class RemoteDataSource constructor(

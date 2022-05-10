@@ -18,6 +18,17 @@ class MovieRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    fun search(query: String, page: Int) = loadAndSave(
+        localLoad = {
+            flow { }
+        }, remoteLoad = {
+            this.search(query, page)
+        },
+        localSave = {
+
+        }
+    )
+
     fun getMovieDetail(movieId: Int) = loadAndSave(
         localLoad = {
             getMovieDetail(movieId)
@@ -72,7 +83,7 @@ class MovieRepository(
         },
         localSave = { data ->
             if (data == null) return@loadAndSave
-            saveMovieList(Genre.POPULAR, *data.toTypedArray())
+            saveMovieList(genre, *data.toTypedArray())
         }
     )
 
@@ -81,7 +92,9 @@ class MovieRepository(
         remoteLoad: suspend RemoteDataSource.() -> Result<T>,
         localSave: suspend LocalDataSource.(T?) -> Unit,
     ): Flow<Result<T>> = flow {
-        emit(local.localLoad().first())
+        try {
+            emit(local.localLoad().first())
+        } catch (e: Exception) { }
         emit(Result.loading())
         try {
             remote.remoteLoad().also {

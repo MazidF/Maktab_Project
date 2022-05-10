@@ -7,12 +7,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.example.maktabplus.R
+import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.databinding.FragmentMovieListBinding
 import com.example.maktabplus.ui.MovieAdapter
 import com.example.maktabplus.utils.Result
 import com.example.maktabplus.utils.repeatingLaunch
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 
 @AndroidEntryPoint
 class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
@@ -25,6 +28,9 @@ class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
 
     private val args: FragmentMovieListArgs by navArgs()
     private val viewModel: ViewModelMovieList by viewModels()
+
+    private var page = 1
+    private var job: Job? = null
 
     private val movieAdapter = MovieAdapter {
         navController.navigate(
@@ -44,13 +50,22 @@ class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
     private fun init() = with(binding) {
         movieListItems.apply {
             this.adapter = movieAdapter
-//            LinearSnapHelper().attachToRecyclerView(this)
+            this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        job?.cancel()
+                        job = viewModel.getMovieListByGenre(args.genre, ++page)
+                    }
+                }
+            })
         }
+        viewModel.getMovieListByGenre(args.genre, page)
     }
 
     private fun observer() {
         repeatingLaunch(Lifecycle.State.STARTED) {
-            viewModel.movieListFlow.collect {
+            viewModel.movieListFlow.collect { it ->
                 when (it) {
                     is Result.Error -> {
 
@@ -59,7 +74,9 @@ class FragmentMovieList : Fragment(R.layout.fragment_movie_list) {
 
                     }
                     is Result.Success -> {
-                        movieAdapter.submitList(it.data)
+                        it.data?.let { list ->
+                            movieAdapter.submitList(movieAdapter.currentList + list)
+                        }
                     }
                 }
             }

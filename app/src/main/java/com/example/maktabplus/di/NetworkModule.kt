@@ -1,6 +1,10 @@
 package com.example.maktabplus.di
 
+import android.icu.util.TimeUnit
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.maktabplus.data.model.MovieDetailWithGenres
+import com.example.maktabplus.data.model.movie.Genre
 import com.example.maktabplus.data.model.movie.GenreResponse
 import com.example.maktabplus.data.model.movie.MovieResponse
 import com.example.maktabplus.data.remote.network.ImageApi
@@ -11,6 +15,7 @@ import com.example.maktabplus.utils.Mapper.jsonToMovieResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
+import com.google.gson.reflect.TypeToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +25,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Duration
 import javax.inject.Singleton
 
 @Module
@@ -48,6 +54,7 @@ class NetworkModule {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
     fun provideOkHttpClient(

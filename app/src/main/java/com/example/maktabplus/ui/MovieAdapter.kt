@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.BaseRequestOptions
+import com.bumptech.glide.request.RequestOptions
 import com.example.maktabplus.R
 import com.example.maktabplus.data.model.movie.Movie
 import com.example.maktabplus.databinding.MovieItemBinding
@@ -14,6 +18,8 @@ import com.example.maktabplus.databinding.MovieItemBinding
 class MovieAdapter(
     private val onItemClick: (Movie) -> Unit,
 ) : ListAdapter<Movie, MovieAdapter.MovieHolder>(DIFF_CALLBACK) {
+
+    val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
 
     inner class MovieHolder(
         private val binding: MovieItemBinding
@@ -32,6 +38,7 @@ class MovieAdapter(
             movie = item
             Glide.with(root)
                 .load(item.getPosterPath())
+                .apply(requestOptions)
                 .placeholder(R.drawable.movie_place_holder)
 //                .error(R.drawable.movie_place_holder)
 //                .transition(DrawableTransitionOptions.withCrossFade(200))

@@ -28,7 +28,7 @@ interface MovieDao : IDao<Movie, Int> {
 
     fun getComingSoonMovieList() = getMovieListByGenre(Genre.COMING_SOON.id)
 
-    @Query("select * from genre_table")
+    @Query("select * from genre_table where genre_id > 0")
     fun getGenreList(): Flow<List<Genre>>
 
     @Query(

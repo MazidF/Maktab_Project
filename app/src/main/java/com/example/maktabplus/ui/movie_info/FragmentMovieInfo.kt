@@ -129,10 +129,10 @@ class FragmentMovieInfo : Fragment(R.layout.fragment_movie_info) {
                             if (it.data != null) {
                                 setViews(it.data)
                             } else {
-                                Result.error<Unit>(Constants.UNABLE_TO_CONNECT)
-                                    .snackBar(binding.root) {
-                                        viewModel.getMovieInfo(args.movie.id)
-                                    }
+//                                Result.error<Unit>(Constants.UNABLE_TO_CONNECT)
+//                                    .snackBar(binding.root) {
+//                                        viewModel.getMovieInfo(args.movie.id)
+//                                    }
                             }
                             stopLoading()
                         }

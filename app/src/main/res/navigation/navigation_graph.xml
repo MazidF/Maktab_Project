@@ -40,4 +40,12 @@
             android:id="@+id/action_fragmentMovieInfo_self"
             app:destination="@id/fragmentMovieInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.example.maktabplus.ui.search.FragmentSearch"
+        android:label="FragmentSearch" >
+        <action
+            android:id="@+id/action_fragmentSearch_to_fragmentMovieInfo"
+            app:destination="@id/fragmentMovieInfo" />
+    </fragment>
 </navigation>
